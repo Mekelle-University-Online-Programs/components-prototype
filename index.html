@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MU MBA Branding Components — Open edX Teak</title>
+<style>
+  :root {
+    --mu-primary: #127DAD;
+    --mu-secondary: #82CFF0;
+    --mu-accent: #F2A900;
+    --mu-link: #0056B3;
+    --mu-text: #1f2933;
+    --mu-muted: #52606d;
+    --mu-border: #d9e2ec;
+    --mu-bg: #f5f7fa;
+    --mu-code-bg: #1e293b;
+    --mu-code-text: #e2e8f0;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--mu-text);
+    background: #ffffff;
+    line-height: 1.6;
+  }
+  header.site-header {
+    background: var(--mu-primary);
+    color: #ffffff;
+    padding: 2rem 1.5rem;
+    border-bottom: 4px solid var(--mu-accent);
+  }
+  header.site-header h1 {
+    margin: 0 0 0.25rem;
+    font-size: 1.75rem;
+  }
+  header.site-header p {
+    margin: 0;
+    color: #eaf6fc;
+    max-width: 72ch;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+  nav.sidebar {
+    position: sticky;
+    top: 1rem;
+    align-self: start;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    border: 1px solid var(--mu-border);
+    border-radius: 6px;
+    padding: 1rem;
+    background: var(--mu-bg);
+    font-size: 0.9rem;
+  }
+  nav.sidebar h2 {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+    color: var(--mu-primary);
+    border-bottom: 2px solid var(--mu-accent);
+    padding-bottom: 0.25rem;
+  }
+  nav.sidebar ul { list-style: none; padding: 0; margin: 0; }
+  nav.sidebar li { margin-bottom: 0.35rem; }
+  nav.sidebar a {
+    color: var(--mu-text);
+    text-decoration: none;
+    display: block;
+    padding: 0.15rem 0.35rem;
+    border-radius: 4px;
+  }
+  nav.sidebar a:hover,
+  nav.sidebar a:focus {
+    background: #ffffff;
+    color: var(--mu-link);
+    outline: 2px solid var(--mu-accent);
+  }
+  main { min-width: 0; }
+  section.demo-section { margin-bottom: 3rem; }
+  section.demo-section > h2 {
+    color: var(--mu-primary);
+    font-size: 1.5rem;
+    border-bottom: 2px solid var(--mu-accent);
+    padding-bottom: 0.35rem;
+    margin-bottom: 1.25rem;
+  }
+  article.component {
+    border: 1px solid var(--mu-border);
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    background: #ffffff;
+  }
+  article.component header {
+    background: var(--mu-bg);
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--mu-border);
+  }
+  article.component header h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--mu-primary);
+  }
+  article.component header p {
+    margin: 0.15rem 0 0;
+    font-size: 0.85rem;
+    color: var(--mu-muted);
+  }
+  .component-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0;
+  }
+  .preview {
+    padding: 1rem;
+    background: #ffffff;
+    border-right: 1px solid var(--mu-border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .preview img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--mu-border);
+    border-radius: 6px;
+    display: block;
+  }
+  .source {
+    padding: 0;
+    background: var(--mu-code-bg);
+    color: var(--mu-code-text);
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .source-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem 0.75rem;
+    background: #0f172a;
+    color: #94a3b8;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-bottom: 1px solid #334155;
+  }
+  .copy-btn {
+    background: var(--mu-primary);
+    color: #ffffff;
+    border: 0;
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.75rem;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    text-transform: none;
+  }
+  .copy-btn:hover { background: var(--mu-link); }
+  .copy-btn:focus-visible { outline: 2px solid var(--mu-accent); }
+  .source pre {
+    margin: 0;
+    padding: 0.85rem 1rem;
+    overflow-x: auto;
+    font-family: Menlo, Consolas, monospace;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    white-space: pre;
+  }
+  .note-panel {
+    background: #f0f9ff;
+    border-left: 5px solid var(--mu-secondary);
+    padding: 1rem 1.25rem;
+    border-radius: 6px;
+    margin-bottom: 2rem;
+  }
+  .note-panel strong { color: var(--mu-primary); }
+  footer.site-footer {
+    background: var(--mu-bg);
+    border-top: 2px solid var(--mu-accent);
+    padding: 1.5rem;
+    text-align: center;
+    color: var(--mu-muted);
+    font-size: 0.9rem;
+  }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    nav.sidebar { position: static; max-height: none; }
+    .component-body { grid-template-columns: 1fr; }
+    .preview { border-right: 0; border-bottom: 1px solid var(--mu-border); }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>Mekelle University MBA Program — Branding Components</h1>
+  <p>
+    Visual reference for course authors and IDs. Every component below shows the rendered
+    result on the left and the HTML source on the right.
+  </p>
+</header>
+
+<div class="layout">
+
+  <nav class="sidebar" aria-label="Component navigation">
+    <h2>Contents</h2>
+    <ul>
+      <li><a href="#typography">1. Typography</a></li>
+      <li><a href="#callouts">2. Callouts</a></li>
+      <li><a href="#tables-figures">3. Tables &amp; Figures</a></li>
+      <li><a href="#ui">4. Cards, Badges &amp; Progress</a></li>
+      <li><a href="#code-refs">5. Code &amp; References</a></li>
+      <li><a href="#assessments">6. Assessments</a></li>
+      <li><a href="#media">7. Media &amp; Collaboration</a></li>
+      <li><a href="#feedback">8. Feedback States</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <div class="note-panel">
+      <strong>How to use this page:</strong> find the component you need,
+      view the rendered result, and copy the HTML source on the right.
+      Paste it into an <em>HTML component</em> in Open edX Studio.
+      Native components (problems, poll, video, discussion) are added from
+      <em>Add New Component</em>, not from HTML.
+    </div>
+
+    <!-- ===================== 1. TYPOGRAPHY ===================== -->
+    <section class="demo-section" id="typography">
+      <h2>1. Typography</h2>
+
+      <article class="component">
+        <header>
+          <h3>H3 Heading</h3>
+          <p>MU blue, 1.5rem, gold bottom border.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview">
+            <img src="H3HeadingWithAccentUnderline.png" alt="H3 heading with gold underline">
+          </div>
+          <div class="source">
+            <div class="source-header"><span>HTML</span><button class="copy-btn" type="button">Copy</button></div>
+            <pre><code>&lt;h3&gt;Module 1: Foundations of Project Management&lt;/h3&gt;</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="component">
+        <header>
+          <h3>H4 Heading + Bullet List</h3>
+          <p>H4 is MU blue at 1.25rem with no border. Lists are indented in MU text colour.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview">
+            <img src="LearningObjectives.png" alt="H4 heading and bullet list">
+          </div>
+          <div class="source">
+            <div class="source-header"><span>HTML</span><button class="copy-btn" type="button">Copy</button></div>
+            <pre><code>&lt;h4&gt;Learning Objectives&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Define a project and distinguish it from routine operations.&lt;/li&gt;
+  &lt;li&gt;Identify the five process groups in the PMBOK framework.&lt;/li&gt;
+  &lt;li&gt;Describe the triple constraint of scope, time, and cost.&lt;/li&gt;
+  &lt;li&gt;Explain the role and responsibilities of a project manager.&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="component">
+        <header>
+          <h3>H5 Heading, Paragraph and Link</h3>
+          <p>H5 is MU blue at 1.1rem. Paragraphs use dark grey, max 72ch. Links are MU link blue.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview">
+            <img src="H5ParagraphLink.png" alt="H5 heading, paragraph, and link">
+          </div>
+          <div class="source">
+            <div class="source-header"><span>HTML</span><button class="copy-btn" type="button">Copy</button></div>
+            <pre><code>&lt;h5&gt;1.1.1 Project Definition&lt;/h5&gt;
+&lt;p&gt;
+  A project is a temporary endeavour undertaken to create a unique
+  product, service, or result. To learn more, consult the
+  &lt;a href="https://www.pmi.org/"&gt;Project Management Institute&lt;/a&gt;.
+&lt;/p&gt;</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="component">
+        <header>
+          <h3>Link Focus Outline</h3>
+          <p>When a link is focused via keyboard, a 3px gold outline is drawn with a 2px offset.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview">
+            <img src="LinkFocus.png" alt="Focused link with gold outline">
+          </div>
+          <div class="source">
+            <div class="source-header"><span>NOTE</span></div>
+            <pre><code>Focus outline is applied automatically by the CSS.
+To test: press Tab until the link is focused.
+Do not override outline styles in your content.</code></pre>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ===================== 2. CALLOUTS ===================== -->
+    <section class="demo-section" id="callouts">
+      <h2>2. Callouts</h2>
+
+      <article class="component">
+        <header>
+          <h3>Note Callout</h3>
+          <p>Blue left border, light grey background.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview"><img src="Note.png" alt="Note callout"></div>
+          <div class="source">
+            <div class="source-header"><span>HTML</span><button class="copy-btn" type="button">Copy</button></div>
+            <pre><code>&lt;div class="mba-callout mba-note"&gt;
+  &lt;span class="mba-callout-title"&gt;Note&lt;/span&gt;
+  &lt;p&gt;
+    This module is aligned with the PMBOK Guide (7th edition). Please
+    keep the guide open as you work through the readings and activities.
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="component">
+        <header>
+          <h3>Definition, Example and Important Callouts</h3>
+          <p>Definition: pale blue. Example: pale grey. Important: pale yellow with gold border.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview">
+            <img src="KeyConcepts.png" alt="Definition, example, and important callouts">
+          </div>
+          <div class="source">
+            <div class="source-header"><span>HTML</span><button class="copy-btn" type="button">Copy</button></div>
+            <pre><code>&lt;div class="mba-callout mba-definition"&gt;
+  &lt;span class="mba-callout-title"&gt;Definition&lt;/span&gt;
+  &lt;p&gt;
+    &lt;strong&gt;Project:&lt;/strong&gt; A temporary endeavour undertaken to
+    create a unique product, service, or result.
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class="mba-callout mba-example"&gt;
+  &lt;span class="mba-callout-title"&gt;Example&lt;/span&gt;
+  &lt;p&gt;
+    Developing the MU online MBA platform is a project. Operating
+    it day-to-day is an operation.
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class="mba-callout mba-important"&gt;
+  &lt;span class="mba-callout-title"&gt;Important&lt;/span&gt;
+  &lt;p&gt;
+    Every project has a defined start and end. If it has no end date,
+    it is likely an operation.
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="component">
+        <header>
+          <h3>Warning, Code, Quote, Success and Error</h3>
+          <p>Warning: red border. Code block: monospace. Quote: blue left border. Success: green. Error: red.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview">
+            <img src="Warning-Acronims-Quots-Success-Error.png" alt="Warning, code, quote, success, and error">
+          </div>
+          <div class="source">
+            <div class="source-header"><span>HTML</span><button class="copy-btn" type="button">Copy</button></div>
+            <pre><code>&lt;div class="mba-callout mba-warning"&gt;
+  &lt;span class="mba-callout-title"&gt;Warning&lt;/span&gt;
+  &lt;p&gt;
+    Do not change assessment logic without ID approval. Self-assessment
+    activities must use a Survey or Poll XBlock in Teak.
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h4&gt;Key Acronyms&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;PMBOK  = Project Management Body of Knowledge
+WBS    = Work Breakdown Structure
+RACI   = Responsible, Accountable, Consulted, Informed
+EVM    = Earned Value Management
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4&gt;Quote&lt;/h4&gt;
+&lt;blockquote&gt;
+  “Project management is the application of processes, methods, skills,
+  knowledge, and experience to achieve specific project objectives.”
+  &lt;br&gt;— Association for Project Management
+&lt;/blockquote&gt;
+
+&lt;div class="mba-callout mba-success"&gt;
+  &lt;span class="mba-callout-title"&gt;Success&lt;/span&gt;
+  &lt;p&gt;
+    You have completed Module 1. Proceed to Module 2: Project Scope and
+    Stakeholders.
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class="mba-callout mba-error"&gt;
+  &lt;span class="mba-callout-title"&gt;Error / Failure&lt;/span&gt;
+  &lt;p&gt;
+    A project that exceeds budget without delivering the agreed scope is
+    considered a failure, even if it finishes on time.
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ===================== 3. TABLES & FIGURES ===================== -->
+    <section class="demo-section" id="tables-figures">
+      <h2>3. Tables &amp; Figures</h2>
+
+      <article class="component">
+        <header>
+          <h3>Table with Caption</h3>
+          <p>MU blue header, white header text, alternating grey rows, MU caption.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview"><img src="Table.png" alt="Table with caption"></div>
+          <div class="source">
+            <div class="source-header"><span>HTML</span><button class="copy-btn" type="button">Copy</button></div>
+            <pre><code>&lt;table class="mba-table"&gt;
+  &lt;caption&gt;Table 1: PMBOK process groups&lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th scope="col"&gt;Process Group&lt;/th&gt;
+      &lt;th scope="col"&gt;Key Output&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;Initiating&lt;/td&gt;&lt;td&gt;Project charter&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Planning&lt;/td&gt;&lt;td&gt;Project management plan&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Executing&lt;/td&gt;&lt;td&gt;Deliverables&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Monitoring &amp;amp; Controlling&lt;/td&gt;&lt;td&gt;Performance reports&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Closing&lt;/td&gt;&lt;td&gt;Final report and lessons learned&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="component">
+        <header>
+          <h3>Figure with Caption</h3>
+          <p>Centred figure with muted grey caption.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview"><img src="FigureCaption.png" alt="Figure with caption"></div>
+          <div class="source">
+            <div class="source-header"><span>HTML</span><button class="copy-btn" type="button">Copy</button></div>
+            <pre><code>&lt;figure class="mba-figure"&gt;
+  &lt;img src="/static/triple-constraint.png"
+       alt="Diagram of the triple constraint showing scope, time, and cost."&gt;
+  &lt;figcaption class="mba-caption"&gt;
+    Figure 1: The triple constraint — scope, time, and cost balanced
+    against quality.
+  &lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ===================== 4. UI ELEMENTS ===================== -->
+    <section class="demo-section" id="ui">
+      <h2>4. Cards, Badges &amp; Progress</h2>
+
+      <article class="component">
+        <header>
+          <h3>Card, Badges and Progress Bar</h3>
+          <p>White card with MU border. Primary, success and warning badges. MU blue progress bar.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview"><img src="CardBadgesProgress.png" alt="Card, badges, and progress bar"></div>
+          <div class="source">
+            <div class="source-header"><span>HTML</span><button class="copy-btn" type="button">Copy</button></div>
+            <pre><code>&lt;div class="mba-card"&gt;
+  &lt;h4&gt;At a Glance&lt;/h4&gt;
+  &lt;p&gt;This module takes approximately &lt;strong&gt;6 hours&lt;/strong&gt; to complete.&lt;/p&gt;
+  &lt;p&gt;
+    &lt;span class="mba-badge mba-badge-primary"&gt;Core&lt;/span&gt;
+    &lt;span class="mba-badge mba-badge-success"&gt;Beginner Friendly&lt;/span&gt;
+    &lt;span class="mba-badge mba-badge-warning"&gt;Graded Quiz&lt;/span&gt;
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h4&gt;Module Progress&lt;/h4&gt;
+&lt;div class="progress"&gt;
+  &lt;div class="progress-bar" style="width: 60%;"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;small&gt;60% complete — finish the quiz to reach 100%.&lt;/small&gt;&lt;/p&gt;</code></pre>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ===================== 5. CODE & REFERENCES ===================== -->
+    <section class="demo-section" id="code-refs">
+      <h2>5. Code &amp; References</h2>
+
+      <article class="component">
+        <header>
+          <h3>Inline Code</h3>
+          <p>Light background with MU border, monospace font.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview"><img src="InlineCode.png" alt="Inline code"></div>
+          <div class="source">
+            <div class="source-header"><span>HTML</span><button class="copy-btn" type="button">Copy</button></div>
+            <pre><code>&lt;p&gt;
+  The attribute &lt;code&gt;correct="true"&lt;/code&gt; must not be set on every
+  &lt;code&gt;&amp;lt;choice&amp;gt;&lt;/code&gt; element in a Teak multiple-choice problem.
+&lt;/p&gt;</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="component">
+        <header>
+          <h3>Reference List (APA 7)</h3>
+          <p>Top border, hanging indent, muted text.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview"><img src="References.png" alt="Reference list"></div>
+          <div class="source">
+            <div class="source-header"><span>HTML</span><button class="copy-btn" type="button">Copy</button></div>
+            <pre><code>&lt;div class="mba-reference"&gt;
+  &lt;p&gt;
+    Project Management Institute. (2021).
+    &lt;em&gt;A guide to the project management body of knowledge&lt;/em&gt;
+    (7th ed.). PMI.
+  &lt;/p&gt;
+  &lt;p&gt;
+    Kerzner, H. (2022).
+    &lt;em&gt;Project management: A systems approach to planning,
+    scheduling, and controlling&lt;/em&gt; (13th ed.). Wiley.
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ===================== 6. ASSESSMENTS ===================== -->
+    <section class="demo-section" id="assessments">
+      <h2>6. Assessments</h2>
+
+      <article class="component">
+        <header>
+          <h3>Single Select Problem</h3>
+          <p>Native Open edX component. MU border and gold left accent applied automatically.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview"><img src="SingleSelect.png" alt="Single select problem"></div>
+          <div class="source">
+            <div class="source-header"><span>NOTE</span></div>
+            <pre><code>Add via: Add New Component -&gt; Problem -&gt; Single Select.
+
+The MU branded wrapper and blue submit button are applied
+automatically by the course-wide CSS. Do not add extra classes.</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="component">
+        <header>
+          <h3>Multi-Select Problem</h3>
+          <p>Native Open edX component.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview"><img src="MultiSelect.png" alt="Multi select problem"></div>
+          <div class="source">
+            <div class="source-header"><span>NOTE</span></div>
+            <pre><code>Add via: Add New Component -&gt; Problem -&gt; Checkboxes.
+
+Teak note: do not mark all choices correct. Only the first correct
+choice awards a point. Use Survey or Poll for self-assessment.</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="component">
+        <header>
+          <h3>Poll</h3>
+          <p>Native Open edX component. Use for self-assessment.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview"><img src="Poll.png" alt="Poll component"></div>
+          <div class="source">
+            <div class="source-header"><span>NOTE</span></div>
+            <pre><code>Add via: Add New Component -&gt; Poll.
+
+Use Poll for self-assessment when there is no single correct answer
+(or when all answers are correct).</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="component">
+        <header>
+          <h3>Drag and Drop</h3>
+          <p>Native Open edX component. MU-branded wrapper and buttons.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview"><img src="DragandDrop.png" alt="Drag and drop problem"></div>
+          <div class="source">
+            <div class="source-header"><span>NOTE</span></div>
+            <pre><code>Add via: Add New Component -&gt; Drag and Drop.
+
+Make sure every draggable item has a clear label, and provide
+alt text on the background image.</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="component">
+        <header>
+          <h3>Survey (Recommended for self-assessment in Teak)</h3>
+          <p>Native Open edX component.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview"><img src="Survey.png" alt="Survey component"></div>
+          <div class="source">
+            <div class="source-header"><span>NOTE</span></div>
+            <pre><code>Add via: Add New Component -&gt; Survey.
+
+Use Survey when you want to collect opinions rather than score
+correct answers. This is the recommended replacement for all-correct
+multiple choice self-assessments in Teak.</code></pre>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ===================== 7. MEDIA & COLLABORATION ===================== -->
+    <section class="demo-section" id="media">
+      <h2>7. Media &amp; Collaboration</h2>
+
+      <article class="component">
+        <header>
+          <h3>Video Component</h3>
+          <p>MU border and rounded corners applied to the video iframe. Always provide captions and transcripts.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview"><img src="VideoComponent.png" alt="Video component"></div>
+          <div class="source">
+            <div class="source-header"><span>NOTE</span></div>
+            <pre><code>Add via: Add New Component -&gt; Video.
+
+Use YouTube unlisted or private videos. Provide captions and a
+transcript for every video (WCAG 2.1 AA).</code></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="component">
+        <header>
+          <h3>Discussion</h3>
+          <p>MU border and rounded corners applied to threads and comments.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview"><img src="Discussion.png" alt="Discussion component"></div>
+          <div class="source">
+            <div class="source-header"><span>NOTE</span></div>
+            <pre><code>Add via: Add New Component -&gt; Discussion.
+
+Write a clear prompt. Do not manually style the discussion.</code></pre>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ===================== 8. FEEDBACK STATES ===================== -->
+    <section class="demo-section" id="feedback">
+      <h2>8. Feedback States</h2>
+
+      <article class="component">
+        <header>
+          <h3>Correct and Incorrect Feedback</h3>
+          <p>Correct feedback: green. Incorrect feedback: red. Both use the MU branded wrapper.</p>
+        </header>
+        <div class="component-body">
+          <div class="preview"><img src="FeedbackStates.png" alt="Correct and incorrect feedback"></div>
+          <div class="source">
+            <div class="source-header"><span>NOTE</span></div>
+            <pre><code>Feedback colours are applied automatically by the course-wide CSS
+when you configure the problem's correct and incorrect feedback
+in Studio. Do not hard-code colours in the problem XML.</code></pre>
+          </div>
+        </div>
+      </article>
+    </section>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  © Mekelle University — MU MBA Program. Branding reference for Open edX Teak.
+  Share feedback via the designated WhatsApp group.
+</footer>
+
+<script>
+  document.querySelectorAll('.copy-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var container = btn.closest('.source');
+      var codeEl = container.querySelector('pre code');
+      if (!codeEl) return;
+      var text = codeEl.innerText;
+      navigator.clipboard.writeText(text).then(function () {
+        var original = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(function () { btn.textContent = original; }, 1200);
+      }).catch(function () {
+        btn.textContent = 'Press Ctrl+C';
+        setTimeout(function () { btn.textContent = 'Copy'; }, 1500);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
